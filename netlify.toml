@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  # leave publish empty to let the adapter/plugin decide OR use .next if plugin requires it
+  # publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
