@@ -472,7 +472,7 @@ export default function Projects() {
             <Box sx={{ display: "flex", gap: 3, alignItems: "center", mb: 1 }}>
               <Box
                 sx={{
-                  width: 80,
+                  width: 100,
                   height: 64,
                   borderRadius: 3,
                   bgcolor: "linear-gradient(180deg, #000 0%, #6b7280 100%)",
