@@ -428,12 +428,6 @@ export default function Projects() {
                 </div>
               ))}
             </div>
-
-            <div className="text-center mt-8 lg:hidden">
-              <p className="text-slate-500 text-sm">
-                اسحب يميناً أو يساراً لاستكشاف المزيد
-              </p>
-            </div>
           </div>
         </div>
 

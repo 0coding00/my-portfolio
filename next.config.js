@@ -2,8 +2,8 @@
 const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
-  basePath: '/my-portfolio',   // 👈 add this so links work on GitHub Pages
+  basePath: '/my-portfolio',   // for GitHub Pages
   assetPrefix: '/my-portfolio/'
 };
 
-export default nextConfig;
+module.exports = nextConfig;
