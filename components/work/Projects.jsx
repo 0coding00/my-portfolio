@@ -65,7 +65,7 @@ export default function Projects() {
     {
       id: 0,
       title: "Project 1: Flash Taxi",
-      icon: <Target size={20} color="#fff" />,
+      icon: <Target size={30} color="#000" />,
       description:
         "Responsive website with manager, driver, and user dashboards, accurate maps, and clean UX design.",
       technologies:
@@ -82,7 +82,7 @@ export default function Projects() {
     {
       id: 1,
       title: "Project 2: Food Ordering Website",
-      icon: <BarChart3 size={20} color="#fff" />,
+      icon: <BarChart3 size={30} color="#000" />,
       description:
         "Responsive website with manager and user dashboards, add/edit meals, authentication and a simple, usable UX.",
       technologies:
@@ -99,7 +99,7 @@ export default function Projects() {
     {
       id: 2,
       title: "Project 3: Quiz Fun App",
-      icon: <User size={20} color="#fff" />,
+      icon: <User size={30} color="#000" />,
       description: "Mini game with timers and leaderboard, responsive and lightweight.",
       technologies: "React.js, JavaScript, Tailwind CSS",
       images: [project3img1, project3img2, project3img3],
@@ -271,196 +271,201 @@ export default function Projects() {
 
         <Box sx={{ display: "grid", gridTemplateColumns: { lg: "1fr 1fr" }, gap: 6, alignItems: "start" }}>
           {/* Left - Slide area */}
-          <Box sx={{ position: "relative" }}>
-            <IconButton
-              onClick={prevSlide}
-              aria-label="Previous slide"
-              sx={{
-                position: "absolute",
-                left: 16,
-                top: "50%",
-                transform: "translateY(-50%)",
-                zIndex: 10,
-                bgcolor: "background.paper",
-                border: "1px solid",
-                borderColor: "divider",
-                boxShadow: 1,
-                "&:hover": { bgcolor: "background.default" },
-              }}
-            >
-              <ChevronLeft size={20} />
-            </IconButton>
+<Box sx={{ position: "relative", width: "100%" }}>
+  <IconButton
+    onClick={prevSlide}
+    aria-label="Previous slide"
+    size="small"
+    sx={{
+      position: "absolute",
+      left: { xs: 8, sm: 16 },
+      top: "50%",
+      transform: "translateY(-50%)",
+      zIndex: 10,
+      bgcolor: "background.paper",
+      border: "1px solid",
+      borderColor: "divider",
+      boxShadow: 1,
+      p: { xs: 0.4, sm: 1 },
+      "&:hover": { bgcolor: "background.default" },
+    }}
+  >
+    <ChevronLeft size={16} />
+  </IconButton>
 
-            <IconButton
-              onClick={nextSlide}
-              aria-label="Next slide"
-              sx={{
-                position: "absolute",
-                right: 16,
-                top: "50%",
-                transform: "translateY(-50%)",
-                zIndex: 10,
-                bgcolor: "background.paper",
-                border: "1px solid",
-                borderColor: "divider",
-                boxShadow: 1,
-                "&:hover": { bgcolor: "background.default" },
-              }}
-            >
-              <ChevronRight size={20} />
-            </IconButton>
+  <IconButton
+    onClick={nextSlide}
+    aria-label="Next slide"
+    size="small"
+    sx={{
+      position: "absolute",
+      right: { xs: 8, sm: 16 },
+      top: "50%",
+      transform: "translateY(-50%)",
+      zIndex: 10,
+      bgcolor: "background.paper",
+      border: "1px solid",
+      borderColor: "divider",
+      boxShadow: 1,
+      p: { xs: 0.4, sm: 1 },
+      "&:hover": { bgcolor: "background.default" },
+    }}
+  >
+    <ChevronRight size={16} />
+  </IconButton>
 
-            <Paper
-              ref={slideRef}
-              elevation={1}
-              onTouchStart={onTouchStart}
-              onTouchMove={onTouchMove}
-              onTouchEnd={onTouchEnd}
-              onMouseEnter={pauseInteraction}
-              onMouseDown={onMouseDown}
-              onDragStart={(e) => e.preventDefault()}
+  <Paper
+    ref={slideRef}
+    elevation={1}
+    onTouchStart={onTouchStart}
+    onTouchMove={onTouchMove}
+    onTouchEnd={onTouchEnd}
+    onMouseEnter={pauseInteraction}
+    onMouseDown={onMouseDown}
+    onDragStart={(e) => e.preventDefault()}
+    sx={{
+      borderRadius: 2,
+      overflow: "hidden",
+      border: "1px solid",
+      borderColor: "grey.100",
+      bgcolor: "background.paper",
+      ...cardStyle,
+      p: { xs: 2, sm: 4 },
+    }}
+  >
+    <Box
+      sx={{
+        p: 0,
+        display: "flex",
+        flexDirection: "column",
+        height: { xs: "auto", sm: 480 },
+        gap: 1.5,
+      }}
+    >
+      <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 }, mb: 1 }}>
+        <Box
+          sx={{
+            width: { xs: 32, sm: 40 },
+            height: { xs: 32, sm: 40 },
+            borderRadius: "50%",
+            bgcolor: colorMap[current.color],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: 3,
+          }}
+        >
+          <CheckCircle size={14} color="#fff" />
+        </Box>
+        <Typography sx={{ color: "text.secondary", fontSize: { xs: 12, sm: 14 } }}>
+          Project
+        </Typography>
+      </Box>
+
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: 700, mb: 0.5, fontSize: { xs: "1rem", sm: "1.1rem" } }}
+      >
+        {current.title}
+      </Typography>
+
+      <Typography
+        sx={{
+          color: "text.secondary",
+          mb: 1.5,
+          minHeight: { xs: 36, sm: 48 },
+          fontSize: { xs: 12, sm: 14 },
+        }}
+      >
+        {current.description}
+      </Typography>
+
+      <Box sx={{ mb: 1 }}>
+        <Typography sx={{ fontWeight: 600, mb: 0.5, fontSize: { xs: 12, sm: 13 } }}>
+          Technologies
+        </Typography>
+        <Typography sx={{ color: "text.secondary", fontSize: { xs: 11, sm: 13 } }}>
+          {current.technologies}
+        </Typography>
+      </Box>
+
+      <Box sx={{ mb: 1 }}>
+        <Typography sx={{ fontWeight: 600, mb: 1, fontSize: { xs: 12, sm: 13 } }}>
+          Images from the project
+        </Typography>
+
+        <Box sx={{ display: "flex", gap: { xs: 1, sm: 2 }, overflowX: "auto", pb: 1 }}>
+          {current.images.map((img, idx) => (
+            <Box
+              key={idx}
               sx={{
+                minWidth: { xs: 100, sm: 140, md: 220 },
                 borderRadius: 2,
                 overflow: "hidden",
-                border: "1px solid",
-                borderColor: "grey.100",
-                bgcolor: "background.paper",
-                ...cardStyle,
+                boxShadow: 2,
+                cursor: "pointer",
+                transform: imgParallax(idx).transform,
+                transition: imgParallax(idx).transition,
               }}
             >
-              <Box sx={{ p: 4, height: 480, display: "flex", flexDirection: "column" }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+              <AnimatePresence>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (Math.abs(dragX) < 8) setPreviewImg(srcOf(img));
+                  }}
+                  sx={{ p: 0, display: "block", minWidth: 0, bgcolor: "transparent", boxShadow: "none" }}
+                >
                   <Box
+                    component="img"
+                    src={srcOf(img)}
+                    alt={`proj-${current.id}-img-${idx}`}
                     sx={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: "50%",
-                      bgcolor: colorMap[current.color],
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: 3,
-                    }}
-                  >
-                    <CheckCircle size={18} color="#fff" />
-                  </Box>
-                  <Typography sx={{ color: "text.secondary" }}>Project</Typography>
-                </Box>
-
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
-                  {current.title}
-                </Typography>
-
-                <Typography sx={{ color: "text.secondary", mb: 2, minHeight: 48 }}>
-                  {current.description}
-                </Typography>
-
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
-                    Technologies
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {current.technologies}
-                  </Typography>
-                </Box>
-
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
-                    Images from the project
-                  </Typography>
-                  <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1 }}>
-                    {current.images.map((img, idx) => (
-                      <Box
-                        key={idx}
-                        sx={{
-                          minWidth: { xs: 140, sm: 180, md: 220 },
-                          borderRadius: 2,
-                          overflow: "hidden",
-                          boxShadow: 2,
-                          cursor: "pointer",
-                          transform: imgParallax(idx).transform,
-                          transition: imgParallax(idx).transition,
-                        }}
-                      >
-                        <AnimatePresence>
-                          <Button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (Math.abs(dragX) < 8) {
-                                setPreviewImg(srcOf(img));
-                              }
-                            }}
-                            sx={{
-                              p: 0,
-                              display: "block",
-                              minWidth: 0,
-                              bgcolor: "transparent",
-                              boxShadow: "none",
-                              textTransform: "none",
-                            }}
-                          >
-                            <Box
-                              component="img"
-                              src={srcOf(img)}
-                              alt={`proj-${current.id}-img-${idx}`}
-                              sx={{
-                                width: "100%",
-                                height: { xs: 90, sm: 120, md: 140 },
-                                objectFit: "cover",
-                                display: "block",
-                              }}
-                            />
-                            <motion.p
-                              initial={{ opacity: 0.2 }}
-                              animate={{ opacity: [0.2, 1, 0.2] }}
-                              transition={{ duration: 1.6, repeat: Infinity }}
-                              style={{ margin: 6, fontSize: 12, color: "rgba(0,0,0,0.6)" }}
-                            >
-                              click to preview
-                            </motion.p>
-                          </Button>
-                        </AnimatePresence>
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
-
-                <Box sx={{ mt: "auto" }}>
-                  <Button
-                    href={current.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    sx={{ textTransform: "none", fontSize: 14 }}
-                  >
-                    Source code
-                  </Button>
-                </Box>
-              </Box>
-            </Paper>
-
-            {/* indicators */}
-            <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 3 }}>
-              {projects.map((_, index) => {
-                const active = index === activeSlide;
-                return (
-                  <Box
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    aria-label={`Go to slide ${index + 1}`}
-                    sx={{
-                      width: active ? 12 : 8,
-                      height: active ? 12 : 8,
-                      borderRadius: "50%",
-                      bgcolor: active ? colorMap[current.color] : "grey.300",
-                      transform: active ? "scale(1.15)" : "none",
-                      transition: "all 200ms",
-                      cursor: "pointer",
+                      width: "100%",
+                      height: { xs: 70, sm: 120, md: 140 },
+                      objectFit: "cover",
+                      display: "block",
                     }}
                   />
-                );
-              })}
+                </Button>
+              </AnimatePresence>
             </Box>
-          </Box>
+          ))}
+        </Box>
+      </Box>
+
+      <Box sx={{ mt: "auto", pt: 1 }}>
+        <Button href={current.github} target="_blank" rel="noreferrer" sx={{ textTransform: "none", fontSize: { xs: 12, sm: 14 } }}>
+          Source code
+        </Button>
+      </Box>
+    </Box>
+  </Paper>
+
+  {/* indicators */}
+  <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 2 }}>
+    {projects.map((_, index) => {
+      const active = index === activeSlide;
+      return (
+        <Box
+          key={index}
+          onClick={() => goToSlide(index)}
+          aria-label={`Go to slide ${index + 1}`}
+          sx={{
+            width: active ? { xs: 10, sm: 12 } : { xs: 8, sm: 8 },
+            height: active ? { xs: 10, sm: 12 } : { xs: 8, sm: 8 },
+            borderRadius: "50%",
+            bgcolor: active ? colorMap[current.color] : "grey.300",
+            transform: active ? "scale(1.15)" : "none",
+            transition: "all 200ms",
+            cursor: "pointer",
+          }}
+        />
+      );
+    })}
+  </Box>
+</Box>
+
 
           {/* Right - Details */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>

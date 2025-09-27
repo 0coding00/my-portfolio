@@ -3,6 +3,7 @@
 import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import aboutImage from "../assets/about.png";
+  const srcOf = (img) => (typeof img === "string" ? img : img?.src ?? img);
 
 export default function About() {
   return (
@@ -72,7 +73,7 @@ export default function About() {
           {/* Use Box component="img" for simple responsive images */}
           <Box
             component="img"
-            src={aboutImage}
+            src={srcOf(aboutImage)}
             alt="About Me"
             sx={{
               width: { xs: 220, sm: 260, md: 300 },
