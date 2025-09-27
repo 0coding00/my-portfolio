@@ -1,8 +1,9 @@
 'use client'
 
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import { Menu as MenuIcon, ArrowForward } from "@mui/icons-material";
-import profileImage from "../assets/profile.jpg"; // You'll need to add this image
+import React from "react";
+import { Box, Typography, Button } from "@mui/material";
+import { ArrowForward } from "@mui/icons-material";
+import profileImage from "../assets/profile.jpg";
 
 export default function Landing() {
   return (
@@ -12,28 +13,27 @@ export default function Landing() {
         backgroundColor: "#f5f5f5",
         display: "flex",
         flexDirection: "column",
-        overflowX: "hidden", // Prevent horizontal scroll on small screens
+        overflowX: "hidden",
       }}
     >
-
       {/* Main Content */}
       <Box
         sx={{
           flex: 1,
           display: "flex",
-          justifyContent: "center", // Center content vertically and horizontally
+          justifyContent: "center",
           px: { xs: 2, sm: 4, md: 6, lg: 8 },
           py: { xs: 4, md: 6, lg: 8 },
-          gap: { xs: 6, md: 8, lg: 10 }, // Increased gap for better spacing
+          gap: { xs: 6, md: 8, lg: 10 },
           flexDirection: { xs: "column", lg: "row" },
-          textAlign: "center", // Default text alignment for mobile
+          textAlign: "center",
         }}
       >
         {/* Left Side - Text Content */}
         <Box
           sx={{
             flex: 1,
-            maxWidth: { lg: "450px" }, // Slightly increased max-width for text
+            maxWidth: { lg: "450px" },
             textAlign: { xs: "center", lg: "left" },
           }}
         >
@@ -50,10 +50,11 @@ export default function Landing() {
           </Typography>
 
           <Typography
+            component="h1"
             variant="h1"
             sx={{
               fontWeight: 900,
-              fontSize: { xs: "2.2rem", sm: "3rem", md: "3.8rem", lg: "4.5rem" }, // More aggressive scaling
+              fontSize: { xs: "2.2rem", sm: "3rem", md: "3.8rem", lg: "4.5rem" },
               lineHeight: 0.9,
               mb: 1,
               color: "#000",
@@ -61,10 +62,19 @@ export default function Landing() {
               letterSpacing: "-0.02em",
             }}
           >
-            A <span className="text-purple-500">FRONTEND</span> DEVELOPER
+            A{" "}
+            <Typography
+              component="span"
+              sx={{
+                color: "#7c3aed", // purple equivalent (you can swap to theme.palette.primary.main)
+                display: "inline-block",
+                ml: 0.5,
+              }}
+            >
+              FRONTEND
+            </Typography>{" "}
+            DEVELOPER
           </Typography>
-
-
 
           <Typography
             variant="body1"
@@ -73,7 +83,7 @@ export default function Landing() {
               fontSize: { xs: "1rem", sm: "1.5rem" },
               lineHeight: 1.6,
               mb: 4,
-              maxWidth: "400px", // Slightly increased max-width for description
+              maxWidth: "400px",
               mx: { xs: "auto", lg: "0" },
             }}
           >
@@ -95,9 +105,7 @@ export default function Landing() {
               fontWeight: 600,
               fontSize: { xs: "0.7rem", sm: "0.8rem" },
               letterSpacing: "0.05em",
-              "&:hover": {
-                backgroundColor: "#1a1a1a",
-              },
+              "&:hover": { backgroundColor: "#1a1a1a" },
             }}
           >
             CONTACT ME
@@ -110,23 +118,23 @@ export default function Landing() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            order: { xs: -1, lg: 0 }, // Image comes first on mobile, then in order on desktop
-            flexShrink: 0, // Prevent image from shrinking too much
-            mt: { xs: 4, lg: 0 }, // Margin top for mobile
+            order: { xs: -1, lg: 0 },
+            flexShrink: 0,
+            mt: { xs: 4, lg: 0 },
           }}
         >
-          <img
+          {/* Use MUI Box with component="img" for consistent sx styling */}
+          <Box
             component="img"
             src={profileImage}
-            alt="Solt - UI/UX Designer"
-  className="
-    w-[200px] h-[200px] 
-    sm:w-[250px] sm:h-[250px] 
-    md:w-[300px] md:h-[300px] 
-    lg:w-[350px] lg:h-[350px] 
-    rounded-full object-cover 
-    shadow-[0_20px_40px_rgba(0,0,0,0.1)]
-  "
+            alt="Yousef - UI/UX Designer"
+            sx={{
+              width: { xs: 200, sm: 250, md: 300, lg: 350 },
+              height: { xs: 200, sm: 250, md: 300, lg: 350 },
+              borderRadius: "50%",
+              objectFit: "cover",
+              boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+            }}
           />
         </Box>
 
@@ -138,10 +146,9 @@ export default function Landing() {
             gap: { xs: 3, sm: 4 },
             alignItems: { xs: "center", lg: "flex-end" },
             textAlign: { xs: "center", lg: "right" },
-            mt: { xs: 4, lg: 0 }, // Margin top for mobile
+            mt: { xs: 4, lg: 0 },
           }}
         >
-          {/* Statistic Item Component */}
           {[
             { value: "2+", label: "Year Experience" },
             { value: "10+", label: "Projects Delivered" },
@@ -178,5 +185,3 @@ export default function Landing() {
     </Box>
   );
 }
-
-

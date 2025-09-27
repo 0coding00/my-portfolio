@@ -3,13 +3,7 @@
 import { Box, Typography, IconButton, Stack } from "@mui/material";
 import { IoMailOpen } from "react-icons/io5";
 import { IoIosCall } from "react-icons/io";
-import {
-  FaFacebook,
-  FaWhatsapp,
-  FaLinkedin,
-  FaGithub,
-  FaMailchimp,
-} from "react-icons/fa";
+import { FaFacebook, FaWhatsapp, FaLinkedin, FaGithub } from "react-icons/fa";
 
 export default function Contact() {
   return (
@@ -19,6 +13,7 @@ export default function Contact() {
         px: { xs: 2, sm: 4, md: 8 },
         py: { xs: 4, md: 8 },
         textAlign: "center",
+        backgroundColor: "#111", // optional: dark background
       }}
     >
       {/* Section Title */}
@@ -26,7 +21,7 @@ export default function Contact() {
         variant="h4"
         sx={{
           fontWeight: 900,
-          fontSize: { xs: "2.2rem", sm: "3rem", md: "3.8rem", lg: "4.5rem" }, // More aggressive scaling
+          fontSize: { xs: "2.2rem", sm: "3rem", md: "3.8rem", lg: "4.5rem" },
           lineHeight: 0.9,
           mb: 10,
           color: "#fff",
@@ -43,9 +38,7 @@ export default function Contact() {
         direction="row"
         justifyContent="center"
         spacing={3}
-        sx={{ mt: 3 }}
-        mt={10}
-        mb={5}
+        sx={{ mt: 10, mb: 5 }}
       >
         <IconButton
           component="a"
@@ -77,7 +70,7 @@ export default function Contact() {
 
         <IconButton
           component="a"
-          href=" https://www.linkedin.com/in/yousef-knifati-06075828b"
+          href="https://www.linkedin.com/in/yousef-knifati-06075828b"
           target="_blank"
           rel="noopener noreferrer"
           sx={{
@@ -103,16 +96,34 @@ export default function Contact() {
           <FaGithub size={30} />
         </IconButton>
       </Stack>
-      <div className="flex justify-center gap-3  py-4">
-        <IoMailOpen className="text-2xl"/>
-        <p >0coding0101@gmail.com </p>
-      </div>
-      <div className="flex justify-center gap-3  py-4">
-        <IoIosCall className="text-2xl"/>
-        <p >
-          Phone Number : 0969909235
-        </p>
-      </div>
+
+      {/* Email */}
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={1.5}
+        sx={{ py: 2 }}
+      >
+        <IoMailOpen size={24} />
+        <Typography sx={{ color: "white", fontSize: "1rem" }}>
+          0coding0101@gmail.com
+        </Typography>
+      </Stack>
+
+      {/* Phone */}
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={1.5}
+        sx={{ py: 2 }}
+      >
+        <IoIosCall size={24} />
+        <Typography sx={{ color: "white", fontSize: "1rem" }}>
+          Phone Number: 0969909235
+        </Typography>
+      </Stack>
     </Box>
   );
 }

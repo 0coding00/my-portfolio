@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   CheckCircle,
@@ -13,6 +13,15 @@ import {
   ChevronRight,
   User,
 } from "lucide-react";
+import {
+  Box,
+  Paper,
+  Typography,
+  IconButton,
+  Button,
+  Stack,
+  Modal,
+} from "@mui/material";
 
 import project1img1 from "../assets/project1img1.png";
 import project1img2 from "../assets/project1img2.png";
@@ -25,7 +34,6 @@ import project2img3 from "../assets/project2img3.png";
 import project3img1 from "../assets/project3img1.png";
 import project3img2 from "../assets/project3img2.png";
 import project3img3 from "../assets/project3img3.png";
-import Image from "next/image";
 
 export default function Projects() {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -33,28 +41,31 @@ export default function Projects() {
   const [touchEnd, setTouchEnd] = useState(null);
   const slideRef = useRef(null);
 
-  // drag state for live swipe effect
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const startXRef = useRef(null);
   const mouseMoveRef = useRef(null);
 
-  // image preview modal
   const [previewImg, setPreviewImg] = useState(null);
 
-  // Autoplay controls
-  const autoplayInterval = 3000; // ms between slides
-  const pauseAfterInteraction = 5000; // ms to pause after user interacts
+  const autoplayInterval = 3000;
+  const pauseAfterInteraction = 5000;
   const isPausedRef = useRef(false);
   const interactionTimerRef = useRef(null);
   const autoplayTimerRef = useRef(null);
 
-  // Projects data (converted from your MUI content)
+  // helper map for your color tokens -> hex (adjust to theme if you want)
+  const colorMap = {
+    "yellow-500": "#f59e0b",
+    "gray-500": "#6b7280",
+    "purple-500": "#7c3aed",
+  };
+
   const projects = [
     {
       id: 0,
       title: "Project 1: Flash Taxi",
-      icon: <Target className="w-8 h-8 text-white" />,
+      icon: <Target size={20} color="#fff" />,
       description:
         "Responsive website with manager, driver, and user dashboards, accurate maps, and clean UX design.",
       technologies:
@@ -71,7 +82,7 @@ export default function Projects() {
     {
       id: 1,
       title: "Project 2: Food Ordering Website",
-      icon: <BarChart3 className="w-8 h-8 text-white" />,
+      icon: <BarChart3 size={20} color="#fff" />,
       description:
         "Responsive website with manager and user dashboards, add/edit meals, authentication and a simple, usable UX.",
       technologies:
@@ -88,9 +99,8 @@ export default function Projects() {
     {
       id: 2,
       title: "Project 3: Quiz Fun App",
-      icon: <User className="w-8 h-8 text-white" />,
-      description:
-        "Mini game with timers and leaderboard, responsive and lightweight.",
+      icon: <User size={20} color="#fff" />,
+      description: "Mini game with timers and leaderboard, responsive and lightweight.",
       technologies: "React.js, JavaScript, Tailwind CSS",
       images: [project3img1, project3img2, project3img3],
       github: "https://github.com/0coding00/Quiz_app.git",
@@ -101,7 +111,6 @@ export default function Projects() {
 
   const minSwipeDistance = 50;
 
-  // pause autoplay for a bit when user interacts
   const pauseInteraction = () => {
     isPausedRef.current = true;
     if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
@@ -110,7 +119,7 @@ export default function Projects() {
     }, pauseAfterInteraction);
   };
 
-  // ---- Touch handlers with live drag effect ----
+  // Touch handlers
   const onTouchStart = (e) => {
     pauseInteraction();
     setTouchEnd(null);
@@ -130,7 +139,6 @@ export default function Projects() {
   };
 
   const finishDrag = (distance) => {
-    // determine swipe threshold and move slides
     if (distance < -minSwipeDistance) {
       setActiveSlide((s) => (s + 1) % projects.length);
     } else if (distance > minSwipeDistance) {
@@ -142,9 +150,8 @@ export default function Projects() {
     if (startXRef.current == null) return;
     const end = touchEnd ?? startXRef.current;
     const distance = end - startXRef.current;
-    finishDrag(-distance * -1); // keep same sign as previous logic (start - end)
+    finishDrag(-distance * -1);
 
-    // snap back animation
     setIsDragging(false);
     setDragX(0);
     startXRef.current = null;
@@ -152,7 +159,7 @@ export default function Projects() {
     setTouchEnd(null);
   };
 
-  // ---- Mouse drag (desktop) ----
+  // Mouse drag (desktop)
   const onMouseDown = (e) => {
     pauseInteraction();
     startXRef.current = e.clientX;
@@ -176,11 +183,9 @@ export default function Projects() {
 
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
-    // store refs to remove if needed
     mouseMoveRef.current = { onMove, onUp };
   };
 
-  // click arrows / indicators still pause autoplay and change slides
   const nextSlide = () => {
     pauseInteraction();
     setActiveSlide((s) => (s + 1) % projects.length);
@@ -196,7 +201,6 @@ export default function Projects() {
     setActiveSlide(index);
   };
 
-  // setup autoplay
   useEffect(() => {
     if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
 
@@ -211,7 +215,6 @@ export default function Projects() {
     };
   }, []);
 
-  // close preview on Esc
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") setPreviewImg(null);
@@ -220,11 +223,9 @@ export default function Projects() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // clear timers on unmount and mouse listeners
   useEffect(() => {
     return () => {
-      if (interactionTimerRef.current)
-        clearTimeout(interactionTimerRef.current);
+      if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
       if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
       if (mouseMoveRef.current) {
         window.removeEventListener("mousemove", mouseMoveRef.current.onMove);
@@ -235,228 +236,328 @@ export default function Projects() {
 
   const current = projects[activeSlide];
 
-  // visual transform for live drag. scale and rotate are subtle but visible.
   const cardStyle = {
     transform: `translateX(${dragX}px) rotate(${dragX / 80}deg)`,
-    transition: isDragging
-      ? "none"
-      : "transform 350ms cubic-bezier(0.22, 1, 0.36, 1)",
+    transition: isDragging ? "none" : "transform 350ms cubic-bezier(0.22, 1, 0.36, 1)",
   };
 
-  // parallax for thumbnails (smaller movement)
   const imgParallax = (index) => ({
     transform: `translateX(${dragX * (0.05 * (index + 1))}px)`,
-    transition: isDragging
-      ? "none"
-      : "transform 350ms cubic-bezier(0.22, 1, 0.36, 1)",
+    transition: isDragging ? "none" : "transform 350ms cubic-bezier(0.22, 1, 0.36, 1)",
   });
 
+  // small helper to get real src (handles imported images or string urls)
+  const srcOf = (img) => (typeof img === "string" ? img : img?.src ?? img);
+
   return (
-    <div className="min-h-screen bg-white text-slate-800">
-      <main className="container mx-auto px-6 py-16">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="font-black text-[2.2rem] sm:text-[3rem] md:text-[3.8rem] lg:text-[4.5rem] leading-[0.9] mb-1 text-black uppercase tracking-[-0.02em]">
+    <Box sx={{ minHeight: "100vh", bgcolor: "white", color: "text.primary" }}>
+      <Box component="main" sx={{ maxWidth: 1200, mx: "auto", px: 3, py: 8 }}>
+        {/* Hero */}
+        <Box sx={{ textAlign: "center", mb: 6 }}>
+          <Typography
+            variant="h2"
+            sx={{
+              fontWeight: 900,
+              fontSize: { xs: "2.2rem", sm: "3rem", md: "3.8rem", lg: "4.5rem" },
+              lineHeight: 0.9,
+              mb: 0.5,
+              textTransform: "uppercase",
+              letterSpacing: "-0.02em",
+            }}
+          >
             MY PROJECTS
-          </h1>
-        </div>
+          </Typography>
+        </Box>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left - Swipeable Project Card (kept shape & style) */}
-          <div className="relative">
-            <button
+        <Box sx={{ display: "grid", gridTemplateColumns: { lg: "1fr 1fr" }, gap: 6, alignItems: "start" }}>
+          {/* Left - Slide area */}
+          <Box sx={{ position: "relative" }}>
+            <IconButton
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-slate-200 hover:bg-slate-50 rounded-full flex items-center justify-center transition-all shadow-sm"
               aria-label="Previous slide"
+              sx={{
+                position: "absolute",
+                left: 16,
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 10,
+                bgcolor: "background.paper",
+                border: "1px solid",
+                borderColor: "divider",
+                boxShadow: 1,
+                "&:hover": { bgcolor: "background.default" },
+              }}
             >
-              <ChevronLeft className="w-5 h-5 text-slate-600" />
-            </button>
+              <ChevronLeft size={20} />
+            </IconButton>
 
-            <button
+            <IconButton
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-slate-200 hover:bg-slate-50 rounded-full flex items-center justify-center transition-all shadow-sm"
               aria-label="Next slide"
+              sx={{
+                position: "absolute",
+                right: 16,
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 10,
+                bgcolor: "background.paper",
+                border: "1px solid",
+                borderColor: "divider",
+                boxShadow: 1,
+                "&:hover": { bgcolor: "background.default" },
+              }}
             >
-              <ChevronRight className="w-5 h-5 text-slate-600" />
-            </button>
+              <ChevronRight size={20} />
+            </IconButton>
 
-            <div
+            <Paper
               ref={slideRef}
-              className="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm"
+              elevation={1}
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
               onTouchEnd={onTouchEnd}
               onMouseEnter={pauseInteraction}
               onMouseDown={onMouseDown}
-              // prevent image drag ghost on desktop
               onDragStart={(e) => e.preventDefault()}
-              style={cardStyle}
+              sx={{
+                borderRadius: 2,
+                overflow: "hidden",
+                border: "1px solid",
+                borderColor: "grey.100",
+                bgcolor: "background.paper",
+                ...cardStyle,
+              }}
             >
-              <div className="p-6 h-120">
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className={`w-10 h-10 bg-${current.color} rounded-full flex items-center justify-center shadow`}
+              <Box sx={{ p: 4, height: 480, display: "flex", flexDirection: "column" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      bgcolor: colorMap[current.color],
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: 3,
+                    }}
                   >
-                    <CheckCircle className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="text-slate-700 h-10">Project</span>
-                </div>
+                    <CheckCircle size={18} color="#fff" />
+                  </Box>
+                  <Typography sx={{ color: "text.secondary" }}>Project</Typography>
+                </Box>
 
-                <h3 className="text-xl font-semibold text-slate-800 mb-2">
+                <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
                   {current.title}
-                </h3>
+                </Typography>
 
-                <p className="text-slate-600 mb-3 h-10">
+                <Typography sx={{ color: "text.secondary", mb: 2, minHeight: 48 }}>
                   {current.description}
-                </p>
+                </Typography>
 
-                <div className="mb-4">
-                  <div className="text-sm font-medium text-slate-700 mb-1 h-10">
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
                     Technologies
-                  </div>
-                  <div className="text-sm text-slate-600 h-10">
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {current.technologies}
-                  </div>
-                </div>
+                  </Typography>
+                </Box>
 
-                <div>
-                  <div className="text-sm font-medium text-slate-700 mb-2">
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
                     Images from the project
-                  </div>
-                  <div className="flex gap-3 overflow-x-auto pb-2">
+                  </Typography>
+                  <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1 }}>
                     {current.images.map((img, idx) => (
-                      <div
+                      <Box
                         key={idx}
-                        style={imgParallax(idx)}
-                        className="transform transition-transform"
+                        sx={{
+                          minWidth: { xs: 140, sm: 180, md: 220 },
+                          borderRadius: 2,
+                          overflow: "hidden",
+                          boxShadow: 2,
+                          cursor: "pointer",
+                          transform: imgParallax(idx).transform,
+                          transition: imgParallax(idx).transition,
+                        }}
                       >
                         <AnimatePresence>
-                          <button
+                          <Button
                             onClick={(e) => {
                               e.stopPropagation();
-                              // ignore if we recently dragged (sensitivity: 8px)
                               if (Math.abs(dragX) < 8) {
-                                const url =
-                                  typeof img === "string"
-                                    ? img
-                                    : img?.src ?? img;
-                                setPreviewImg(url);
+                                setPreviewImg(srcOf(img));
                               }
                             }}
-                            className="p-0 m-0 bg-transparent border-0"
+                            sx={{
+                              p: 0,
+                              display: "block",
+                              minWidth: 0,
+                              bgcolor: "transparent",
+                              boxShadow: "none",
+                              textTransform: "none",
+                            }}
                           >
-                            <Image
-                              src={img}
+                            <Box
+                              component="img"
+                              src={srcOf(img)}
                               alt={`proj-${current.id}-img-${idx}`}
-                              className="w-[150px] sm:w-[200px] md:w-[240px] rounded-lg shadow cursor-pointer"
-                              unoptimized
+                              sx={{
+                                width: "100%",
+                                height: { xs: 90, sm: 120, md: 140 },
+                                objectFit: "cover",
+                                display: "block",
+                              }}
                             />
                             <motion.p
                               initial={{ opacity: 0.2 }}
-                              animate={{
-                                opacity: [0.2, 1, 0.2],
-                              }}
-                              transition={{
-                                duration: 1.6,
-                                repeat: Infinity,
-                                repeatType: "loop",
-                                ease: "easeInOut",
-                              }}
+                              animate={{ opacity: [0.2, 1, 0.2] }}
+                              transition={{ duration: 1.6, repeat: Infinity }}
+                              style={{ margin: 6, fontSize: 12, color: "rgba(0,0,0,0.6)" }}
                             >
-                              click to preview{" "}
+                              click to preview
                             </motion.p>
-                          </button>
+                          </Button>
                         </AnimatePresence>
-                      </div>
+                      </Box>
                     ))}
-                  </div>
-                </div>
+                  </Box>
+                </Box>
 
-                <div className="mt-4">
-                  <a
+                <Box sx={{ mt: "auto" }}>
+                  <Button
                     href={current.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-sm underline text-slate-700"
+                    sx={{ textTransform: "none", fontSize: 14 }}
                   >
                     Source code
-                  </a>
-                </div>
-              </div>
-            </div>
+                  </Button>
+                </Box>
+              </Box>
+            </Paper>
 
-            <div className="flex justify-center gap-2 mt-6">
-              {projects.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300  ${
-                    index === activeSlide
-                      ? ` bg-${current.color} scale-125`
-                      : "bg-slate-300"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
+            {/* indicators */}
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 3 }}>
+              {projects.map((_, index) => {
+                const active = index === activeSlide;
+                return (
+                  <Box
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    aria-label={`Go to slide ${index + 1}`}
+                    sx={{
+                      width: active ? 12 : 8,
+                      height: active ? 12 : 8,
+                      borderRadius: "50%",
+                      bgcolor: active ? colorMap[current.color] : "grey.300",
+                      transform: active ? "scale(1.15)" : "none",
+                      transition: "all 200ms",
+                      cursor: "pointer",
+                    }}
+                  />
+                );
+              })}
+            </Box>
+          </Box>
 
-          {/* Right - Dynamic details (kept shape) */}
-          <div className="space-y-8 ">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-20 h-16 bg-gradient-to-br from-black to-gray-500 rounded-2xl flex items-center justify-center shadow">
+          {/* Right - Details */}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <Box sx={{ display: "flex", gap: 3, alignItems: "center", mb: 1 }}>
+              <Box
+                sx={{
+                  width: 80,
+                  height: 64,
+                  borderRadius: 3,
+                  bgcolor: "linear-gradient(180deg, #000 0%, #6b7280 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: 3,
+                }}
+              >
                 {current.icon}
-              </div>
-              <div>
-                <h2 className="text-2xl font-semibold mb-2 text-slate-800">
+              </Box>
+
+              <Box>
+                <Typography variant="h5" sx={{ fontWeight: 700 }}>
                   {current.title}
-                </h2>
-                <p className="text-slate-600 text-base">
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {current.description}
-                </p>
-              </div>
-            </div>
+                </Typography>
+              </Box>
+            </Box>
 
-            <div className="space-y-3">
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {current.features.map((feat, i) => (
-                <div
+                <Box
                   key={i}
-                  className="flex items-center gap-3 transform transition-all duration-300 hover:translate-x-2"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    transition: "transform 200ms",
+                    "&:hover": { transform: "translateX(8px)" },
+                  }}
                 >
-                  <CheckCircle className="w-6 h-6 flex-shrink-0" />
-                  <span className="text-slate-700 text-base">{feat}</span>
-                </div>
+                  <CheckCircle size={18} />
+                  <Typography sx={{ color: "text.primary" }}>{feat}</Typography>
+                </Box>
               ))}
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </Box>
 
-        {/* Image preview modal (tailwind) */}
-        {previewImg && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+        {/* Preview Modal */}
+        <Modal open={Boolean(previewImg)} onClose={() => setPreviewImg(null)}>
+          <Box
             onClick={() => setPreviewImg(null)}
+            sx={{
+              position: "fixed",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              bgcolor: "rgba(0,0,0,0.6)",
+              p: 2,
+              zIndex: 1300,
+            }}
           >
-            <div
-              className="max-w-4xl w-full px-4"
+            <Box
               onClick={(e) => e.stopPropagation()}
+              sx={{
+                maxWidth: "90%",
+                width: "100%",
+                borderRadius: 2,
+                boxShadow: 6,
+                position: "relative",
+              }}
             >
-              <button
-                className="absolute right-6 top-6 bg-white rounded-full p-2 shadow"
+              <IconButton
                 onClick={() => setPreviewImg(null)}
-                aria-label="close"
+                aria-label="close preview"
+                sx={{
+                  position: "absolute",
+                  right: 16,
+                  top: 16,
+                  bgcolor: "background.paper",
+                }}
               >
                 ✕
-              </button>
-              <img
-                src={previewImg}
+              </IconButton>
+
+              <Box
+                component="img"
+                src={previewImg ?? ""}
                 alt="preview"
-                className="w-full h-auto rounded-lg shadow-lg"
+                sx={{ width: "100%", height: "auto", borderRadius: 1, display: "block" }}
               />
-            </div>
-          </div>
-        )}
-      </main>
-    </div>
+            </Box>
+          </Box>
+        </Modal>
+      </Box>
+    </Box>
   );
 }
