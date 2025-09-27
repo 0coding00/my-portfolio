@@ -4,6 +4,7 @@ import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
 import profileImage from "../assets/profile.jpg";
+  const srcOf = (img) => (typeof img === "string" ? img : img?.src ?? img);
 
 export default function Landing() {
   return (
