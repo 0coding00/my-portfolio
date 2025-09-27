@@ -3,7 +3,6 @@
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import { Menu as MenuIcon, ArrowForward } from "@mui/icons-material";
 import profileImage from "../assets/profile.jpg"; // You'll need to add this image
-import Image from "next/image";
 
 export default function Landing() {
   return (
