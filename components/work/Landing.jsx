@@ -130,7 +130,7 @@ export default function Landing() {
           {/* Use MUI Box with component="img" for consistent sx styling */}
           <Box
             component="img"
-            src={profileImage}
+            src={"../assets/profile.jpg"}
             alt="Yousef - UI/UX Designer"
             sx={{
               width: { xs: 200, sm: 250, md: 300, lg: 350 },
