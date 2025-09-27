@@ -116,7 +116,7 @@ export default function Landing() {
             mt: { xs: 4, lg: 0 }, // Margin top for mobile
           }}
         >
-          <Image
+          <img
             component="img"
             src={profileImage}
             alt="Solt - UI/UX Designer"
