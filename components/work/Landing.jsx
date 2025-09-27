@@ -67,8 +67,12 @@ export default function Landing() {
               component="span"
               sx={{
                 color: "#7c3aed", // purple equivalent (you can swap to theme.palette.primary.main)
-                display: "inline-block",
-                ml: 0.5,
+              fontWeight: 900,
+              fontSize: { xs: "2.2rem", sm: "3rem", md: "3.8rem", lg: "4.5rem" },
+              lineHeight: 0.9,
+              mb: 1,
+              textTransform: "uppercase",
+              letterSpacing: "-0.02em",
               }}
             >
               FRONTEND
